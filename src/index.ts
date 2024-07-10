@@ -22,10 +22,12 @@ app.use(
     credentials: true,
     origin: [
       'http://localhost:3000',
+      'http://localhost:3001',
       'https://localhost:3000',
       'http://localhost:5173',
       'https://localhost:5173',
-      'https://cba.pictusweb.sk',
+      'https://miestnacirkev.sk',
+      'https://www.miestnacirkev.sk',
       'https://pictusweb.sk',
       'https://cestazivota.sk',
       'https://ioana-illustrations.eu',
