@@ -1,5 +1,3 @@
-const time = new Date()
-
 const userMail = (
   name: string,
   email: string,

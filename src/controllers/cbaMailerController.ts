@@ -18,7 +18,6 @@ const cbaMailerController = async (
 
   try {
     await transporter(nodejsMailerEnvs).sendMail(mailData)
-
     res.json({ status: 'Success' })
   } catch (error: any) {
     console.log('error', error)
