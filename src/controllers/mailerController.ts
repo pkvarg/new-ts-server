@@ -1,35 +1,33 @@
 import express from 'express'
-import { transporter } from './../utils/mailerTransport'
-import { adminMail, passwordReset, userMail } from './../utils/libroMailer'
+import { transporter } from '../utils/mailerTransport'
+import { userMail } from '../utils/mailer'
+
+// email/universal/mailer
 
 const mailerController = async (
   req: express.Request,
   res: express.Response
 ) => {
-  const { email, username, name, type, url } = req.body
+  const { name, email, phone, mailMessage, locale, origin } = req.body
+
+  console.log('orig', origin)
 
   const nodejsMailerEnvs = {
     host: process.env.TITAN_MAILER_HOST,
-    user: process.env.NODEJS_MAILER_USERNAME,
-    pass: process.env.NODEJS_MAILER_PASSWORD,
+    user: process.env[`${origin}_MAILER_USERNAME`],
+    pass: process.env[`${origin}_MAILER_PASSWORD`],
   }
 
-  const passwordResetData = passwordReset(email, url)
+  console.log(nodejsMailerEnvs)
 
-  const adminMailData = adminMail(name, email, username)
-
-  const userMailData = userMail(name, email, username, url)
+  const mailData = userMail(name, email, phone, mailMessage, locale, origin)
 
   try {
-    if (type === 'reg-link-nodemailer') {
-      await transporter(nodejsMailerEnvs).sendMail(userMailData)
-      await transporter(nodejsMailerEnvs).sendMail(adminMailData)
-    } else if (type === 'reset-password-nodemailer') {
-      await transporter(nodejsMailerEnvs).sendMail(passwordResetData)
-    }
-    res.json('Success')
+    await transporter(nodejsMailerEnvs).sendMail(mailData)
+    res.json({ status: 'Success' })
   } catch (error: any) {
-    res.json(error)
+    console.log('error', error)
+    res.json({ status: 'Error', error })
   }
 }
 

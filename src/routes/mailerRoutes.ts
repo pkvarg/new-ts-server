@@ -1,12 +1,13 @@
 import express from 'express'
-import { mailerController } from './../controllers/mailerController'
-import { cbaMailerController } from './../controllers/cbaMailerController'
+import { libroMailerController } from '../controllers/libroMailerController'
+
+import { mailerController } from '../controllers/mailerController'
 
 const router = express.Router()
 
-router.put('/libro/mailer', mailerController)
+router.put('/libro/mailer', libroMailerController)
 
-router.put('/cba/mailer', cbaMailerController)
+router.put('/universal/mailer', mailerController)
 
 //router.put('/email', sendEmail)
 

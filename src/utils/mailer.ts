@@ -3,7 +3,8 @@ const userMail = (
   email: string,
   phone: string,
   mailMessage: string,
-  locale: string
+  locale: string,
+  origin: string
 ) => {
   const sk = `<div>
     <p>Dobrý deň ${name}</p>
@@ -12,7 +13,7 @@ const userMail = (
     <p>Vaša správa: ${mailMessage}</p>
     <p>Ďakujeme Vám za správu.</p
     <p>Ozveme sa čoskoro.</p>
-    <p>miestnacirkev.sk</p>
+    <p>${origin.toLowerCase()}</p>
     </div>`
 
   const en = `<div>
@@ -22,21 +23,29 @@ const userMail = (
     <p>Your message: ${mailMessage}</p>
     <p>Thank you for contacting us.</p
     <p>We will get back to you soon.</p>
-    <p>miestnacirkev.sk</p>
+     <p>${origin.toLowerCase()}</p>
     </div>`
 
-  const bcc = [
-    `${process.env.CBA_MAILER_USERNAME} , ${process.env.CBA_MAILER_BCC}`,
-  ]
+  let bcc = []
+
+  if (origin === 'MIESTNACIRKEV.SK') {
+    bcc = [
+      process.env[`${origin}_MAILER_USERNAME`],
+      process.env[`${origin}_MAILER_BCC`],
+    ]
+  } else {
+    bcc = [process.env[`${origin}_MAILER_USERNAME`]]
+  }
 
   const data = {
-    from: process.env.CBA_MAILER_USERNAME,
-    to: `${email}`,
+    from: process.env[`${origin}_MAILER_USERNAME`],
+    to: email,
     bcc: bcc,
-    subject: `miestnacirkev.sk`,
-
+    subject: `${origin.toLowerCase()}`,
     html: locale === 'sk' ? sk : en,
   }
+
+  console.log('Maler', bcc, data)
 
   return data
 }
