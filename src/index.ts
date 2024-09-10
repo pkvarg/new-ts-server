@@ -37,6 +37,7 @@ app.use(
       'https://duhovyrod.sk',
       'https://md.pictusweb.sk',
       'https://michaldovala.sk',
+      'https://cirkevvpraze.cz',
     ],
   })
 )
