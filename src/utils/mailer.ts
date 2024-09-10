@@ -16,6 +16,16 @@ const userMail = (
     <p>${origin.toLowerCase()}</p>
     </div>`
 
+  const cz = `<div>
+    <p>Dobrý den ${name}</p>
+    <p>Váš email: ${email}</p>
+       <p>Váš telefon: ${phone}</p>
+    <p>Vaše zpráva: ${mailMessage}</p>
+    <p>Děkujeme Vám za zprávu.</p>
+    <p>Ozveme se brzy.</p>
+    <p>${origin.toLowerCase()}</p>
+    </div>`
+
   const en = `<div>
     <p>Hello ${name}</p>
     <p>Your email: ${email}</p>
@@ -42,7 +52,7 @@ const userMail = (
     to: email,
     bcc: bcc,
     subject: `${origin.toLowerCase()}`,
-    html: locale === 'sk' ? sk : en,
+    html: locale === 'sk' ? sk : locale === 'en' ? en : cz,
   }
 
   console.log('Maler', bcc, data)

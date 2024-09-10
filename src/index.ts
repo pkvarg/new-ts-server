@@ -64,5 +64,5 @@ app.use('/technik', technikRoutes)
 // app.use('/uploads', express.static(path.resolve('uploads')))
 
 app.get('/', (req: express.Request, res: express.Response) => {
-  res.sendFile(__dirname + '/public/server.png')
+  res.sendFile(__dirname + '/utils/server.png')
 })
