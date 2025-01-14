@@ -21,6 +21,7 @@ app.use(
   cors({
     credentials: true,
     origin: [
+      // NO LOCALHOST IN PROD !!!
       'http://localhost:3000',
       'http://localhost:3001',
       'https://localhost:3000',
@@ -31,6 +32,7 @@ app.use(
       'https://pictusweb.sk',
       'https://cestazivota.sk',
       'https://ioana-illustrations.eu',
+      'https://eshop.pictusweb.sk',
       'https://ecommerce.pictusweb.sk',
       'https://katolickaviera.sk',
       'https://svedkovia.sk',
@@ -39,12 +41,15 @@ app.use(
       'https://michaldovala.sk',
       'https://cirkevvpraze.cz',
     ],
-  })
+  }),
 )
 
 app.use(compression())
 app.use(cookieParser())
-app.use(bodyPaser.json())
+//app.use(bodyPaser.json())
+// Increase the request payload size limit
+app.use(bodyPaser.json({ limit: '10mb' })) // Set to 10mb or more based on your needs
+app.use(bodyPaser.urlencoded({ limit: '10mb', extended: true }))
 
 const server = http.createServer(app)
 
