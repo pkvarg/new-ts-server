@@ -5,7 +5,7 @@ import { userMail } from '../utils/next_eshop/next_eshop_mailer'
 // email/universal/mailer
 
 const next_eshopController = async (req: express.Request, res: express.Response) => {
-  const { order, origin, pdf } = req.body
+  const { order, origin, pdf, email } = req.body
   //const { order, origin } = req.body
 
   // console.log('body', order, origin)
@@ -17,7 +17,7 @@ const next_eshopController = async (req: express.Request, res: express.Response)
   }
 
   // const mailData = userMail(name, email, phone, mailMessage, locale, origin)
-  const mailData = userMail(order, origin, pdf)
+  const mailData = userMail(order, origin, pdf, email)
   //const mailData = userMail(order, origin)
 
   try {
