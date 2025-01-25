@@ -11,6 +11,7 @@ router.put('/libro/mailer', libroMailerController)
 router.put('/universal/mailer', mailerController)
 
 router.put('/next_eshop/mailer', next_eshopController)
+router.post('/next_eshop/mailer', next_eshopController)
 
 //router.put('/email', sendEmail)
 

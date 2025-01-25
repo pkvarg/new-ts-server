@@ -1,14 +1,13 @@
 import express from 'express'
 import { transporter } from '../utils/mailerTransport'
-import { userMail } from '../utils/next_eshop/next_eshop_mailer'
+import { eshopMailer, eshopContact } from '../utils/next_eshop/next_eshop_mailer'
 
 // email/universal/mailer
 
 const next_eshopController = async (req: express.Request, res: express.Response) => {
-  const { order, origin, pdf, email } = req.body
-  //const { order, origin } = req.body
+  const { order, origin, pdf, email, action } = req.body
 
-  // console.log('body', order, origin)
+  console.log('body', order, origin, pdf, order, email, action)
 
   const nodejsMailerEnvs = {
     host: process.env.TITAN_MAILER_HOST,
@@ -16,15 +15,19 @@ const next_eshopController = async (req: express.Request, res: express.Response)
     pass: process.env[`${origin}_MAILER_PASSWORD`],
   }
 
-  // const mailData = userMail(name, email, phone, mailMessage, locale, origin)
-  const mailData = userMail(order, origin, pdf, email)
-  //const mailData = userMail(order, origin)
+  let mailData
+
+  if (action === 'newContact') {
+    mailData = eshopContact(origin, email, action)
+  } else {
+    mailData = eshopMailer(order, origin, pdf, email, action)
+  }
 
   try {
     await transporter(nodejsMailerEnvs).sendMail(await mailData)
     res.json({ status: 'Success' })
   } catch (error: any) {
-    console.log('error', error)
+    console.error('Error sending email:', error)
     res.json({ status: 'Error', error })
   }
 }
