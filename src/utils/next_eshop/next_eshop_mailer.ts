@@ -162,7 +162,8 @@ export const eshopMailer = async (
              ? 'Hotovosť pri prevzatí'
              : 'Platobnou kartou online'
          }</p>
-        <p>Status: ${order.paidAt ? 'Zaplatené' : 'Nezaplatené'}</p>
+        <p>Status: Zaplatené</p>
+         <p>Produkty spolu: ${order.productTotalsPrice.toFixed(2)}&#8364;</p>
         <p>Poštovné: ${order.postage.toFixed(2)}&#8364;</p>
         <p>Daň 23%: ${order.tax.toFixed(2)}&#8364;</p>
         <p>Celkom: ${order.pricePaidInCents / 100}&#8364;</p>
@@ -187,10 +188,34 @@ export const eshopMailer = async (
     return dataOrderPaidByStripe
   }
 
-  if (action === 'stripeError') {
-  }
+  // will not
+  // if (action === 'stripeError') {
+  // }
 
   if (action === 'orderPackedAndSent') {
+    const orderPackedAndSent = `<div style="font-size: 17.5px;">
+    <p style="font-size: 20px;">Vaša objednávka</p>  
+    <p>Dobrý deň,</p>
+    <p>${order.shippingInfo.name}</p>
+
+     <p>Vaša objednávka číslo ${order.orderNumber} bola odoslaná.</p>
+      
+     
+      <p>S pozdravom</p>
+     
+      <p>${origin.toLowerCase()}</p>
+      </div>`
+
+    const dataOrderPackedAndSent = {
+      from: process.env[`${origin}_MAILER_USERNAME`],
+      to: `${order.userEmail}`,
+      bcc: bcc,
+      subject: `Objednávka bola odoslaná ${order.orderNumber}`,
+      html: orderPackedAndSent,
+    }
+    console.log('Mailer Data', dataOrderPackedAndSent)
+
+    return dataOrderPackedAndSent
   }
 }
 

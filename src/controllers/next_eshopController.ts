@@ -7,7 +7,7 @@ import { eshopMailer, eshopContact } from '../utils/next_eshop/next_eshop_mailer
 const next_eshopController = async (req: express.Request, res: express.Response) => {
   const { order, origin, pdf, email, action } = req.body
 
-  console.log('body', order, origin, pdf, order, email, action)
+  //console.log('body', order, origin, pdf, order, email, action)
 
   const nodejsMailerEnvs = {
     host: process.env.TITAN_MAILER_HOST,
